@@ -1,5 +1,11 @@
 # tiny-bip39
 
+This fork was made to support readable hashes for the host key fingerprint in the OpenSSH client.
+
+See: https://github.com/anandv96/openssh-portable
+
+---
+
 [![Travis shield](https://travis-ci.org/maciejhirsz/tiny-bip39.svg)](https://travis-ci.org/maciejhirsz/tiny-bip39.svg)
 [![Crates.io version shield](https://img.shields.io/crates/v/tiny-bip39.svg)](https://crates.io/crates/tiny-bip39)
 [![Crates.io license shield](https://img.shields.io/crates/l/tiny-bip39.svg)](https://crates.io/crates/tiny-bip39)

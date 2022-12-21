@@ -17,6 +17,8 @@ edition = "2018"
 [lib]
 name = "bip39"
 path = "src/lib.rs"
+crate-type = ["cdylib"]      # Creates dynamic lib
+# crate-type = ["staticlib"] # Creates static lib
 
 [features]
 chinese-simplified = []
@@ -41,6 +43,7 @@ rand = "0.8.5"
 once_cell = "1.12.0"
 unicode-normalization = "0.1.19"
 zeroize = { version = "1.5.5", features = ["zeroize_derive"] }
+libc = "0.2.137"
 
 [dev-dependencies]
 hex = "0.4.3"

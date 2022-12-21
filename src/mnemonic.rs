@@ -9,6 +9,9 @@ use crate::language::Language;
 use crate::mnemonic_type::MnemonicType;
 use crate::util::{checksum, BitWriter, IterExt};
 
+use libc::{self, c_char};
+use std::ffi::{CStr, CString};
+
 /// The primary type in this crate, most tasks require creating or using one.
 ///
 /// To create a *new* [`Mnemonic`][Mnemonic] from a randomly generated key, call [`Mnemonic::new()`][Mnemonic::new()].
@@ -61,6 +64,24 @@ impl Mnemonic {
     ///
     /// [Mnemonic]: ./mnemonic/struct.Mnemonic.html
     /// [Mnemonic::phrase()]: ./mnemonic/struct.Mnemonic.html#method.phrase
+    #[no_mangle]
+    pub extern "C" fn gen_mn(fp: *const c_char) -> *const c_char {
+        let c_str: &CStr = unsafe { CStr::from_ptr(fp) };
+        let fp_slice: &str = c_str.to_str().unwrap();
+        let fp_string: String = fp_slice.to_owned();
+
+        let keys: Vec<&str> = fp_string.split(":").collect();
+        let mut key: &[u8] = "".as_bytes();
+
+        for k in keys{
+            key = k.as_bytes();
+        }
+        let mn= Mnemonic::from_entropy_unchecked(key, Language::English);
+
+        let c_string = CString::new(mn.phrase()).expect("CString::new failed");
+        return c_string.into_raw();  
+    }
+
     pub fn new(mtype: MnemonicType, lang: Language) -> Mnemonic {
         let entropy = gen_random_bytes(mtype.entropy_bits() / 8);
 
